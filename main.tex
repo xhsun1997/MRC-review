@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+%for long table
+\makeatletter
+\newenvironment{tablehere}
+  {\def\@captype{table}}
+ {}
+
+\newenvironment{figurehere}
+ {\def\@captype{figure}}
+ {}
+\makeatother
+\usepackage{longtable}
+
+\usepackage{graphicx}
+\usepackage{abstract}
+\renewcommand{\abstractname}{}
+\renewcommand{\absnamepos}{empty}
+\usepackage{zhlipsum}
+\usepackage{color}
+\usepackage{multirow}
+\usepackage{cuted}
+\graphicspath{{picture/}}
+\usepackage[left=2.5cm,right=1.97cm,top=2.5cm,bottom=2.5cm]{geometry}%设置页边距
+\renewcommand{\baselinestretch}{1.25}%行间距
+%\usepackage[hidelinks,urlcolor=black,linkcolor=black]{hyperref}%引入超链接包，否则会出现Undefined sequence
+\usepackage[hidelinks]{hyperref}
+%[colorlinks,urlcolor=black,linkcolor=black]去除超链接中的颜色框
+\usepackage{amssymb}%数学符号
+\usepackage{amsmath}%数学公式
+\usepackage{booktabs}%设置三线表的线粗细
+\usepackage{array}%table
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+%\usepackage{cite}
+% \ctexset{section={format={\zihao{3} \heiti \bfseries}},
+% bibname={\zihao{-4} \heiti \bfseries 参考文献}}
+
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+\usepackage{caption}
+\usepackage{geometry}
+\title{mrc}
+%\footnotetext{ 投稿日期: 2020-07-19 \\
+%\hspace*{1.8em}作者简介: 孙相会（1997-），男，硕士，研究方向为自然语言处理，E-mail: 2357094733@qq.com}
+%黑体2号 在标题那页插入脚注
+
+
+%\author{\zihao{-4} \songti 孙相会 \\ 东北大学 计算机科学与工程学院，沈阳 110169}
+\date{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+    \maketitle %生成title,author,date
+	\begin{abstract}
+		Leave the summary in the end
+	\end{abstract}
+%----------------------正文-----------------------
+
+\input{introduction.tex}
+
+\section{MRC assignment outline}
+Machine reading comprehension task can be formalized as a supervised learning problem, which the training data 
+is given in the form of triples: (C,Q,A), where C is the context, Q is the question, and A is the answer. 
+The goal of MRC is to learn a mapping relationship f with the context C and question Q as input and answer A as output. 
+MRC has developed from the task of reading a context with the answer is a single word to the task of reading 
+multiple contexts, and the answer needs to be inferred from multiple contexts. 
+Following Chen, according to the different forms of answers, reading comprehension tasks can be classfied into four types: 
+cloze, extractive, multiple choice and descriptive answers.
+\subsection{classfication}
+
+\subsubsection{cloze}
+Given a context C and a sentence Q with a missing word, the task of cloze test is to infer the missing word in Q. 
+Different datasets have different sources of missing words, some from C and some from candidate answer set. 
+The relevant datasets are as follows:
+
+\noindent\textbf{CNN\&Daily Mail: }Published by Google deepmind and Oxford university in 2015. The dataset consist of 
+93K articles collected from CNN and 220K articles collected from daily mail. Each article has some general summary sentences and the problem is generated 
+by replacing some entities in these sentences. Meanwhile, anonymous tags are used to represent the replaced entity to 
+prevent the interference of external knowledge.
+
+\noindent\textbf{CBT: }Hill et al suggest that the marked answer will reduce the reasoning ability of 
+the dataset needs and it does not conform with real question answering behavior of human beings. They present the CBT(Children Book Test) dataset, which is 
+based on 108 children books with clear narrative structure. Unlike CNN\&Daily Mail, the deleted word is not limited to named entities, but also nouns, verbs and prepositions 
+in sentences.
+
+\noindent\textbf{CLOTH: }CLOTH dataset collected from cloze test type of English test of Chinese middle school students. Each question is carefully designed by experts 
+to test student's English level. The words in the blank space usually measure student's vocabulary, grammar and reasoning ability, so the CLOTH dataset is more challenging than 
+CNN\&Daily Mail and CBT.
+
+\subsubsection{multi-choice}
+The task of multiple choice is to select correct answer from candidate answers set $A=\{A_1,A_2,\cdots,A_n\}$ for 
+a given context C and question Q. The dataset of this task usually comes from the reading comprehension questions in 
+the examination papers. the question and candidate answers set are constructed manually by experts, the number of candidate answers is usually 4. 
+The relevant datasets are as follows: 
+
+\noindent\textbf{MCTest: }This is the first multiple choice dataset, but because of its small size which only contains 500 story articles, 
+it is difficult to learn by neural network, so MCTest is usually used as verfication set or test set.
+
+\noindent\textbf{RACE: }This is a dataset based on the reading comprehension questions of Chinese middle school, which contains about 28 
+thousands articles and 100 thousands questions. In addition, RACE covers many fields, such as news, story, advertisement and biography etc. 
+It can better evaluate the reading comprehension ability of machine because of the diversity of its types.
+
+\noindent\textbf{ARC: }The most challenging multiple choice dataset is ARC which proposed by Clark. They classfied the questions whose answers can be 
+obtained by retrieval or word co-occurrence as simple sets, and those that cannot be obtained by the above two methods as challenge sets. The answers in the challenge set will not 
+appear in the context, and need to be inferred and selected by the model combined with external knowledge.
+
+\subsubsection{extractive answer}
+The task of extractive reading comprehension can be regarded as an extension of cloze task. Unlike cloze task, which only requires the 
+answer to be a word in context, extractive task requires the model to extractive a continuous piece of text from the context as 
+the answer, and the length of the answer is not fixed. This kind of reading comprehension task is a popular research direction 
+in the field of MRC because it is more appropriate from the perspective of dataset construction, evaluation metric and application value. 
+The relevant dataset are as follows:
+
+\noindent\textbf{SQuAD: }SQuAD is a representative dataset of extractive reading comprehension, which is also one of the most widely used 
+dataset in the field of MRC, it has greatly promoted the development of MRC. The dataset is constructed by crowdsourcing service platform, crowdsourcing workers give 
+questions according to the article in Wikipedia.SQuAD contains 536 articles and more than 10 thousands (Q,A) pairs. 
+
+\noindent\textbf{NewsQA: }The construction of NewQA is similar to SQuAD. The difference is that the articles in NewQA comes from CNN news, and 
+answers to some questions is null, which makes Rajpurkar et al add 50 thousands unanswerable questions to SQuAD to construct the dataset SQuAD 2.0.
+
+\noindent\textbf{TriviaQA: }There is a common feature in the construction of above datasets, which is that the question and answer 
+are constructed after the context is given. However, this will lead to (Q,A) pair implicitly contains context information, which reduces the 
+difficulty of dataset. Joshi et al. collected a large number of <Q,A> pairs from quiz League and then searched the relevant articles from web page or Wikipedia for 
+each question, the retrieved articles are used as the evidence for finding answers. In this way, they built a dataset called TriviaQA, which contains more than 650 thousands (C,Q,A) triples. 
+This way of finding contexts through questions and answers makes the questions and contexts have a large difference in syntax and morphology, which makes the dataset more difficult.
+
+There are also some typical extractive datasets, but these datasets mainly examine the reasoning ability of the model. For example, HotpotQA, which each question corresponds to multiple paragraphs, 
+the answers to the question often needs to deduced step by step in multiple paragraphs. 
+
+\subsubsection{generate}
+
+
+
+
+
+\end{document}
+

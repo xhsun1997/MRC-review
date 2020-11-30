@@ -1,0 +1,38 @@
+\section{Introduction}
+Natural language processing(NLP) is an important direction in the field of computer science and 
+artificial intelligence, which studies various theories and technologies that can realize effective 
+communication between human and computer with natural language. Machine reading comprehension(MRC) is to let 
+machine learn to read and understand natural language text, find the answer from the relevant articles of a given question.
+MRC is one of the most challenging tasks in the field of NLP, which has many application scenarios, 
+such as intelligent Q\&A in search engine, intelligent customer service in e-commerce field and so on.
+
+As early as the 1970s, scholars have realized that machine reading technology is the key method to test 
+computer understanding of human language, such as the QUALM system built by Lehnert. Due to the manual coding and  the system is very small, 
+it is difficult to be extended to a larger field. 
+% 基于深度学习的机器阅读理解综述，李舟军 文献4-6: Deep read: a reading comprehension system.(HIRSCHMAN等人)
+% A rule-based question answering system for reading comprehension tests(RILOFF等人)
+% Machine reading at the university of washington(POON等人)
+%Mctest: A challenge dataset for the open-domain machine comprehension of text(RICHARDSON等人)
+Hirschman built the first automatic reading comprehension test system deep read in 1999. The system measures 
+reading comprehension tasks based on stories, and uses bad-of-word model and manual rules for pattern matching, 
+accuracy rate can reach about 40\%. Due to the manual rules, however, the generalization ability of the model is poor.
+Riloff scores the matching degree of questions and candidate sentences in the article by making rules manually, then 
+select the candidate sentence with the highest score as the answer.
+The traditional MRC technology mostly uses pattern matching method to extract features, even if using machine learning method, 
+it only answers question at the sentence level granularity, and can only extract shallow features from the text. 
+Therefore, the early MRC system has poor performance and it is difficult to put it into practical application, which 
+leads to the slow development of MRC field.
+
+With the rise of deep learning and development of technology in NLP field, in order to make up for the defects of 
+the traditional MRC technology, Hermann, a researcher at deepmind, used neural network model to solve MRC tasks in 2015 and 
+constructed a reading comprehension dataset CNN\&Daily Mail which is larger than the previous datasets.
+They proposed two models : Attentive Reader and Impatient Reader, which based on the neural network and attention mechanism, 
+and the performance of these two models on CNN\&Daily Mail is much better than traditional models.
+This work is regarded as the foundation work in the field of MRC. Since then, more and more scholars 
+have constructed better models based on these two models. 
+For example, Kadlec use dot product to simplify attention operation and achieves better performance. Chen uses 
+bilinear function as activation function to obtain more flexible and effective model. Cui enhances the ability of feature extraction by using 
+attention mechanism between article and question, which attention mechanism is used not only in article, but also in question.
+Because the models are based on neural network, they are also refered to as neural machine reading comprehension models.
+
+This paper reviews the research tasks, related datasets and models in the field of MRC since 2015.

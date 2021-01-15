@@ -1,0 +1,100 @@
+\section{MRC assignment outline}
+Machine reading comprehension task can be formalized as a supervised learning problem, which the training data 
+is given in the form of triples: (C,Q,A), where C is the context, Q is the question, and A is the answer. 
+The goal of MRC is to learn a mapping relationship f with the context C and question Q as input and answer A as output. 
+MRC has developed from the task of reading a context with the answer is a single word to the task of reading 
+multiple contexts, and the answer needs to be inferred from multiple contexts. 
+Following Chen, according to the different forms of answers, reading comprehension tasks can be classfied into four types: 
+cloze, extractive, multiple choice and descriptive answers.
+\subsection{classfication}
+
+\subsubsection{cloze}
+Given a context C and a sentence Q with a missing word, the task of cloze test is to infer the missing word in Q. 
+Different datasets have different sources of missing words, some from C and some from candidate answer set. 
+The relevant datasets are as follows:
+
+\noindent\textbf{CNN\&Daily Mail: }Published by Google deepmind and Oxford university in 2015. The dataset consist of 
+93K articles collected from CNN and 220K articles collected from daily mail. Each article has some general summary sentences and the problem is generated 
+by replacing some entities in these sentences. Meanwhile, anonymous tags are used to represent the replaced entity to 
+prevent the interference of external knowledge.
+
+\noindent\textbf{CBT: }Hill et al suggest that the marked answer will reduce the reasoning ability of 
+the dataset needs and it does not conform with real question answering behavior of human beings. They present the CBT(Children Book Test) dataset, which is 
+based on 108 children books with clear narrative structure. Unlike CNN\&Daily Mail, the deleted word is not limited to named entities, but also nouns, verbs and prepositions 
+in sentences.
+
+\noindent\textbf{CLOTH: }CLOTH dataset collected from cloze test type of English test of Chinese middle school students. Each question is carefully designed by experts 
+to test student's English level. The words in the blank space usually measure student's vocabulary, grammar and reasoning ability, so the CLOTH dataset is more challenging than 
+CNN\&Daily Mail and CBT.
+
+\subsubsection{multi-choice}
+The task of multiple choice is to select correct answer from candidate answers set $A=\{A_1,A_2,\cdots,A_n\}$ for 
+a given context C and question Q. The dataset of this task usually comes from the reading comprehension questions in 
+the examination papers. the question and candidate answers set are constructed manually by experts, the number of candidate answers is usually 4. 
+The relevant datasets are as follows: 
+
+\noindent\textbf{MCTest: }This is the first multiple choice dataset, but because of its small size which only contains 500 story articles, 
+it is difficult to learn by neural network, so MCTest is usually used as verfication set or test set.
+
+\noindent\textbf{RACE: }This is a dataset based on the reading comprehension questions of Chinese middle school, which contains about 28 
+thousands articles and 100 thousands questions. In addition, RACE covers many fields, such as news, story, advertisement and biography etc. 
+It can better evaluate the reading comprehension ability of machine because of the diversity of its types.
+
+\noindent\textbf{ARC: }The most challenging multiple choice dataset is ARC which proposed by Clark. They classfied the questions whose answers can be 
+obtained by retrieval or word co-occurrence as simple sets, and those that cannot be obtained by the above two methods as challenge sets. The answers in the challenge set will not 
+appear in the context, and need to be inferred and selected by the model combined with external knowledge.
+
+\subsubsection{extractive answer}
+The task of extractive reading comprehension can be regarded as an extension of cloze task. Unlike cloze task, which only requires the 
+answer to be a word in context, extractive task requires the model to extractive a continuous piece of text from the context as 
+the answer, and the length of the answer is not fixed. This kind of reading comprehension task is a popular research direction 
+in the field of MRC because it is more appropriate from the perspective of dataset construction, evaluation metric and application value. 
+The relevant dataset are as follows:
+
+\noindent\textbf{SQuAD: }SQuAD is a representative dataset of extractive reading comprehension, which is also one of the most widely used 
+dataset in the field of MRC, it has greatly promoted the development of MRC. The dataset is constructed by crowdsourcing service platform, crowdsourcing workers give 
+questions according to the article in Wikipedia.SQuAD contains 536 articles and more than 10 thousands (Q,A) pairs. 
+
+\noindent\textbf{NewsQA: }The construction of NewQA is similar to SQuAD. The difference is that the articles in NewQA comes from CNN news, and 
+answers to some questions is null, which makes Rajpurkar et al add 50 thousands unanswerable questions to SQuAD to construct the dataset SQuAD 2.0.
+
+\noindent\textbf{TriviaQA: }There is a common feature in the construction of above datasets, which is that the question and answer 
+are constructed after the context is given. However, this will lead to (Q,A) pair implicitly contains context information, which reduces the 
+difficulty of dataset. Joshi et al. collected a large number of <Q,A> pairs from quiz League and then searched the relevant articles from web page or Wikipedia for 
+each question, the retrieved articles are used as the evidence for finding answers. In this way, they built a dataset called TriviaQA, which contains more than 650 thousands (C,Q,A) triples. 
+This way of finding contexts through questions and answers makes the questions and contexts have a large difference in syntax and morphology, which makes the dataset more difficult.
+
+There are also some typical extractive datasets, but these datasets mainly examine the reasoning ability of the model. For example, HotpotQA, which each question corresponds to multiple paragraphs, 
+the answers to the question often needs to deduced step by step in multiple paragraphs. 
+
+\subsubsection{generate}
+Extracting a text span from an article makes the answer semantically too stiff. In addition, the answer to the question extracted from 
+the article is more in line with people's reading comprehension form. So researchers began to turn to the free-form reading comprehension task. 
+The answers of this kind of task are free-form, not limited to some words in the article, and the grammar is often more flexible.
+The relevant dataset are as follows:
+\noindent\textbf{MS MARCO: }MS MARCO is one of the representatives of free answer reading comprehension data set. 
+The data set is collected by Microsoft through the log of Bing search engine. The paragraphs are from the 10 most relevant query paragraphs returned by Bing search engine, and the answers are extracted from these paragraphs manually.
+
+\noindent\textbf{DuReader: }DuReader is a Chinese reading comprehension data set. This construction method is similar to 
+that of MS MARCO. The questions and articles are from Baidu search and Baidu zhidao, and the question types are also include yes no questions. 
+
+\noindent\textbf{NarrativeQA: }Kovcisky et al think that the difficulty of most data sets in MRC field is too simple, and the answers only 
+focus on context information. Many questions can be answered only by shallow pattern matching. The data set NarrativeQA released by them avoids this 
+deficiency. NarrativeQA is collected from novels and movie scripts. Some of questions need to understand the whole novel or script to find the answers, 
+which requires the model to have stronger ability of understanding and reasoning.
+
+\subsection{evaluation metric}
+There are different evaluation indexes for different MRC tasks. Both the cloze task and multiple-choice task belong to the objective 
+type, and accuracy can be used to measure the performance of the model. 
+
+Extractive task belongs to semi objective type, which usually 
+evaluated by extract match(EM) or f1 score. EM evaluation index can be regarded as an extension of accuracy. In terms of extractive task, 
+EM requires that the predicted answer fragment should be consistent with the standard answer, and the EM value is 1, otherwise it is 0. 
+The calculation of f1 score is a kind of fuzzy matching, which is the harmonic average between precision and recall. 
+Precision refers to the proportion of words in the answer predicted by model are words in standard answer. 
+Recall refers to the proportion of words in standard answer appearing in the predicted answer.
+
+The matching rate of word level is generally used as the scoring standard for free-form tasks, and common standards are ROUGE-L and BLEU. 
+ROUGE-L is used to calculate the longest common subsequence(LCS) of standard answers and predicted answers. BLEU is originally used 
+to evaluate translation performance. when it is applied to MRC task, it is mainly used to measure the similarity between predicted 
+answers and standard answers. Table1 lists all the data sets introduced in this chapter and the corresponding evaluation methods.

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.15)  30 NOV 2020 20:33
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.15)  15 JAN 2021 20:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -670,26 +670,26 @@ LaTeX Warning: No \author given.
 
 (./introduction.tex (d:/texlive/2019/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
-)) [1
+)) (./outline.tex [1
 
-] [2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 148.
- [3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 148.
+] [2] [3])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 89.
+ [4]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 89.
  (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 148.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 148.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 89.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 89.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 6E7D7591305FF8BFA7EC64450BC2F62D.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 148.
+(rerunfilecheck)             Checksum: 4B2B41B29747ED5C4235E564B9E5B7B8.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 89.
  ) 
 Here is how much of TeX's memory you used:
- 20969 strings out of 492922
- 358788 string characters out of 6136750
+ 20973 strings out of 492922
+ 358830 string characters out of 6136750
  569411 words of memory out of 5000000
- 24872 multiletter control sequences out of 15000+600000
+ 24873 multiletter control sequences out of 15000+600000
  539114 words of font info for 60 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  36i,6n,45p,877b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (3 pages).
+Output written on main.pdf (4 pages).

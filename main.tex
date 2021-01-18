@@ -79,7 +79,23 @@ Machine reading comprehension generally needs the following processes:
 \begin{enumerate}
 	\item Representing the unstructured data in the text form of paragraphs and questions as a form that can be processed by the computer.
 	\item In order to enhance the semantic representation of a paragraph or question, it is necessary to enable a word in question or paragraph to pay attention to its contextual information.
+	\item According to the question, retrieve the part of the paragraph that is most relevant to the question.
+	\item Summarize the answers from the retrieved article fragments.
 \end{enumerate}
+
+It can be seen from the whole process that each step has a clear purpose and corresponds to a certain layer in the neural network. The overall framework of 
+deep learning model for MRC tasks mainly includes the following layers: word embedding layer, feature extraction layer, interaction layer and answer output layer. 
+The word embedding layer corresponds to step 1, which embeds paragraph and question into a low dimensional vector space, and uses each vector to represent each word; 
+The feature extraction layer corresponds to step 2, and its function is to encode the semantic information of paragraph and question, so that each word can pay attention to its context;
+The interaction layer corresponds to step 3, whose function is to fuse the semantic information of the paragraph with the semantic information of the question, so that 
+the model can learn the most relevant part of paragraph with the question; 
+The answer output layer corresponds to step 4, and the goal is to find the answer to the question from the paragraph.
+
+\subsubsection{Word embedding layer}
+How to express text into a form that can be processed by computers while effectively utilizing the semantic relationship between words 
+has always been one of key issues in NLP field. The early one hot form coding uses a binary vector to represent words, but there is the problem of 
+data sparsity and dimensional disaster with the increase of the number of words. In addition, this form of coding could not represent the semantic 
+relationship between words
 
 \begin{equation}
 	\pi=x_i

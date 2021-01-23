@@ -95,10 +95,80 @@ The answer output layer corresponds to step 4, and the goal is to find the answe
 How to express text into a form that can be processed by computers while effectively utilizing the semantic relationship between words 
 has always been one of key issues in NLP field. The early one hot form coding uses a binary vector to represent words, but there is the problem of 
 data sparsity and dimensional disaster with the increase of the number of words. In addition, this form of coding could not represent the semantic 
-relationship between words
+relationship between words. 
+
+Rumelhart et al. first proposed the concept of distributed representation. Distributed representation is to embed words into a 
+low-dimensional vector space and use a low-dimensional vector to represent a word. This representation, therefore, is also called word embedding. 
+Words with similar semantics have similar distances in vector space. This word representation method solves many problems in one-hot encoding. 
+Bengio et al. first put the idea of deep learning into the language model, and proposed the Neural Network Language Model(NNLM). The mapping matrix 
+at the first level of the model is the word vector learned. Mikolov et al. were inspired by this idea and proposed Word2Vec. 
+Word2Vec uses two models CBOW and Skip-gram to learn the distributed representation of words. CBOW uses the context words of a word to predict the word, and 
+Skip-gram uses the word to predict the words around it. In addition, Glove considered the global statistical information by using the 
+word co-occurrence matrix.
+
+A large number of experiments show that using Word2Vec or GloVe pre-trained word vectors as word features of downstream task texts can 
+significantly improve the performance of the model. In addition to word embedding, there are many fine-grained embedding methods. For example, 
+Seo et al. proposed to combine word embedding and char embedding to alleviate the common OOV(out-of-vocabulary) problem in NLP field. Chen et al. proposed to 
+introduce semantic features of words to enhance embedded representation, such as exact matching features between paragraph and question, part-of-speech features and 
+named entity features of words.
+
+The word vectors trained by Word2Vec and GloVe are static word vectors. After training the model, the expression of words are fixed without 
+considering the context information, so the polysemy question can not be solved. Peters proposed a dynamic context-based word embedding model ELMo, which 
+used two layers of bidirectional BiLSTM with residual connection. The vector of each word is expressed according to its context semantics, which solve the problem of polysemy.
+
+From early one-hot coding to distributed representation and then to context-based word embedding, the emergence of each technology proves that 
+a good text representation method can significantly improve the performance of the model.
+
+
+\subsubsection{coding layer}
+The purpose of coding layer is to further obtain semantic information at the sentence level on the basis of the word embedding layer. 
+The most commonly used feature extractors in NLP are based on variants of recurrent neural networks(RNNs) such as LSTM and GRU. Vaswani et al. proposed 
+a model Transformer which based on self-attention mechanism. Experiments show that Transformer has better feature extraction ability than RNNs and can 
+speed up training through parallel computation, such as QANet\upcite{QANet}. See section 3.3.1 for details about Transformer.
+
+\subsubsection{interaction layer}
+Interaction layer is the key layer in the whole four-layer network. The purpose of this layer is to integrate the semantic information of paragraph with the semantic 
+information of question so as to have a deep understanding of paragraph. The most commonly used method in the interaction layer is attention mechanism.
+
+Attention mechanism can be regarded as a mapping process between a query vector and a set of key-value pairs(in NLP tasks, key equals value). The function $f$ is 
+used to measure the similarity between query and key to generate a weight vector, and then the weight vector is normalized(usually using softmax function). The value will be 
+weighted and summed by the normalized weight vector, and the result is the attention of query to key-value pairs. The formula is as follows: 
+
+MRC model has two directions for attention operation: from question to context(Q2C) and from context to question(C2Q). Taking Q2C as an example, 
+its attention refers to treating question as Q and context as K,V. Definiting $C=[c_1,c_2,\cdots,c_n]\in R^{n\times d}$, 
+which represents the semantic representation of context, where $n$ is the number of 
+words in the context, $d$ is the vector dimension, $Q\in R^d$ represents the semantic representation of the whole question. 
+The attention calculation steps of Q2C are as follows:
+
+The calculated attention is also called context-aware question representation. The attention operation of C2Q is in a similar way. The difference is that 
+at this time the context is regarded as Q and the question is regarded as K,V, the attention calculated at this time is called question-aware context representation.
+In addition, attention mechanism in MRC field can be divided into one-hop and multi-hop forms. One-hop refers to the weight vector is obtained by doing one interactive calculation 
+between context and question. Multi-hop can be seen as a stack of one-hop, which aims at realizing multi-step reasoning. For complex problems, 
+the answer may not be found in one sentence, so the reasoning needs to be carried out in multiple sentences. In each step of reasoning, the object of attention will be changed. 
+
+\subsubsection{output layer}
+The answer prediction layer is the last layer of the whole model architecture. As mentioned in the previous chapter 2, MRC tasks can be 
+divided into cloze type, multi-choice type, extraction type and free-answer type according to the answer form, so the design of this layer needs to consider 
+the answer form. Since the method of multi-choice tasks can be summed up as cloze tasks(each choice can be regarded as a candidate for cloze positions), and cloze tasks 
+are special cases of extractive tasks, this section focuses on the design of the output layer for extractive and free-answer tasks.
+
+For extractive reading comprehension tasks, a continuous span text is extracted from the article as the answer.The pointer network model evolved from seq2seq model, and directly outputs 
+the prediction results according to the calculated attention weight distribution, thus solving the problem that the output originates from the input.
+
+Inspired by pointer networks, Wang et al. proposed two output models based on pointer networks. The first is a sequential model, which predicts each position of the answer in a sequential 
+form. The second is a boundary model. Unlike the sequential model which serially predict each position of answer, only the start position and end position of the answer are predicted in boundary model since the answer to predicted is a continuous piece of text. 
+The method is simpler than the first one, and its experimental results also show that its more efficient. Therefore, the output layer of extractive MRC model is always designed to predict only the start position and end 
+position. The loss function of output layer can be written as $L(\theta)=-\displaystyle\frac{1}{N}\sum_{i=1}^{N}\log P_{y_i^s}^{S}+\log P_{y_i^e}^E$, where $\theta$ is the model parameter, 
+$N$ represents the number of examples, $y_i^s$ and $y_i^e$ indicate the start position and end position of the answer in the context of the i-th example respectively.
+
+For free-answer tasks, the form of the answer is no longer a continuous text in the article, but a text conforming to grammatical norms needs to be generated according to the context and question. This kind of task requires 
+higher ability of answer generation module. A typical architecture for handling generation tasks is the seq2seq model, which takes the context and question as the input of encoder, and decoder generates answers based on words in the vocabulary. 
+There is also a classical architecture for processing generation tasks, which is the pointer generator network proposed by See et al. 
+The model combines the generation mechanism of seq2seq network and the copy mechanism of pointer network, so that the predicted words can be generated from the vocabulary or copied from the original text.
+The experimental results of DrQA show that the performance of PGNet in free-answer reading comprehension tasks is better than that of the traditional seq2seq model.
 
 \begin{equation}
-	\pi=x_i
+	\pi=x_is
 \end{equation}
 
 

@@ -1,0 +1,41 @@
+\subsection{Classical MRC model}
+Among these four layers, the word embedding layer and coding layer is not unique to MRC model, and other tasks of NLP also include these two layers. 
+What truly embodies the characteristics of each MRC model are the interaction layer and the answer output layer, especially the interaction layer. 
+Therefore, this section focuses on the design of attention mechanism in the interaction layer of each model. 
+In view of the complexity of the attention mechanism used in the interaction layer of most model at present, it is difficult to completely distinguish each 
+model according to the form introduced in Section 3. In the light of the thinking of Liu et al. this paper divides each model according to the direction and structure 
+of attention mechanism.
+
+\subsubsection{uni-direction}
+Unidirectional attention is usually to calculate the attention of the problem to the context(Q2C), and the calculated value represents the weight of the corresponding words in 
+the context, so as to highlight the part of the context that is most silimar to the question. Hermann et al was the first to use neural network and integrate attention mechanism to 
+solve MRC tasks. They proposed two different models of unidirectional attention mechanism, AttentiveReader and ImpatientReader, which both calculate the attention in the direction from question to context, and 
+the calculation method of attention adopts feedforward neural network(Equation .). On this basis, Chen et al. use bilinear term(formula 3) to replace 
+the original feedforward neural network, and Kadlec et al. use inner product(formula 5) as attention calculation method.
+\subsubsection{bidirectional attention}
+Unidirectional attention can extract limited interactive information, while bidirectional attention can complement the two directions and provide 
+more comprehensive interactive information. Xiong et al. proposed Dynamic Co-attention Network(DCN) model, which adopts a cooperation attention mechanism in interaction layer, that is, 
+synchronously calculates the attention of C2Q and Q2C, and finally fuses the attention of the two directions as the output of the interaction layer. 
+The bidirectional attention flow(bidaf) model proposed by Seo et al. also calculates the attention of two directions(C2Q and Q2C). Different from previous model, BiDAF merges 
+the paragraph semantic representation output by the coding layer and the question-aware paragraph representation calculated by interaction layer to flow to the following layer. 
+In this way, to a certain extent, the problem of information loss caused by the premature generalization of paragraph semantics is avoided.
+\subsubsection{self-attention}
+Q2C attention can be considered as reading the context with the question, while C2Q attention can be considered as reading the question with the context. 
+These two kinds of attention belong to interactive attention mechanism. However, the excessive dependence on prior information of interactive attention, especially for Q2C attention, may lead the model to 
+only pay attention to the information with high correlation to the question in the article and ignore the semantic information emphasized by the model itself. 
+The self-attention mechanism enables each word in the article to pay attention to all the others word, making the model achieve a deeper understanding of the semantics of the article. 
+Many models add self-attention mechanism on the basis of interac
+tive attention. For example, RNet and BiDAF++, etc.
+\subsubsection{hop}
+One-hop structure means that the interaction between the context and the question is calculated only once. Either the whole question is compressed into a vector, and then the attention is calculated with the context, such as AttentiveReader, AS Reader, etc. or the 
+representation of the question and the context is calculated in parallel, such as DCN, BiDAF etc. 
+
+The one-hop structure can not achieve the effect of multi-step reasoning. Multi-hop structure can be regarded as a stack of one-hop structures. 
+The purpose is to deepen the understanding of context and question by calculating the interaction between context and question many times. Each interaction calculation will change the objects of attention appropriately, 
+so as to achieve the purpose of multi-step reasoning. There are several ways to realize multi-step reasoning: 
+\begin{enumerate}
+	\item The first method is to calculate the interaction between the paragraph and question of the current time step based on the question-aware paragraph representation which calculated by the previous time step, such as ImpatientReader. This is to calculate attention in a sequential way, which is similar to human reading way, that is, we constantly interact between question and paragraph in the process of reading.
+	\item The second method is to use RNNs, which is based on the previous hidden state to update the next hidden state. For example, the Match-LSTM model proposed by Wang et al. reads the paragraph sequentially while using LSTM to store the question-aware paragraph representation of each time step. Specifically, the attention between the word at the current time of the paragraph and the question is calculated, 
+	and the obtained question-aware vector representation and the vector representation of current word are combined as the input of Match-LSTM. Similar models such as RNet and IA Reader, etc.
+	\item The third method is to achieve the purpose of multi-step reasoning by stacking multiple levels of computation attention, such as GA Reader model and Reinforced Mnemonic Reader etc.
+\end{enumerate}

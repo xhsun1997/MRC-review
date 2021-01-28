@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.15)  23 JAN 2021 19:23
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2019.12.15)  28 JAN 2021 20:50
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -672,32 +672,32 @@ LaTeX Warning: No \author given.
 File: se-ascii-print.def 2016/05/16 v1.11 stringenc: Printable ASCII characters
 )) (./outline.tex [1
 
-] [2] [3]) [4]
+] [2] [3]) (./generalArchitecture.tex [4]
 
-LaTeX Warning: Citation `QANet' on page 5 undefined on input line 127.
+LaTeX Warning: Citation `QANet' on page 5 undefined on input line 52.
 
-[5] [6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
+[5]) [6] (./classicMRCModel.tex [7]) [8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 107.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 107.
  (./main.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 175.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 107.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 107.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 3519D302BD2A5AB396DF836A75545BBD.
+(rerunfilecheck)             Checksum: E58BD1B9AE44278E3F2D1CF04E4AE1DA.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 107.
  ) 
 Here is how much of TeX's memory you used:
- 20983 strings out of 492922
- 359093 string characters out of 6136750
+ 20991 strings out of 492922
+ 359247 string characters out of 6136750
  571411 words of memory out of 5000000
- 24877 multiletter control sequences out of 15000+600000
+ 24879 multiletter control sequences out of 15000+600000
  539138 words of font info for 63 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  36i,7n,45p,877b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on main.pdf (7 pages).
+Output written on main.pdf (9 pages).
